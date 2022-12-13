@@ -1,6 +1,6 @@
 # ecommerce
 # FlutterEcommerceProject
-orange project
+
 
 ## Getting Started
 
