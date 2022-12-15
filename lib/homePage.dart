@@ -21,9 +21,7 @@ class _homePageState extends State<homePage> {
             height: 70,
           ),
           const SizedBox(height: 15,),
-          Column(
 
-           children: [
              Container(
                margin: const EdgeInsets.only(left: 25.0),
              child:    Row(
@@ -96,8 +94,7 @@ class _homePageState extends State<homePage> {
 
                                  ) ,))]))
                    ],
-                 ) ,),
-                  ],
+                 )
                 ),
                 const SizedBox(height: 30,),
 
