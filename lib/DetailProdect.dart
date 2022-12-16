@@ -8,7 +8,7 @@ class DetailProdect extends StatefulWidget {
   State<DetailProdect> createState() => _DetailProdectState();
 }
 class _DetailProdectState extends State<DetailProdect> {
-  @override//a
+  @override
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor: const Color(0XFFF5F6F9),
