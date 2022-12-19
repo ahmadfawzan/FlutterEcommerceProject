@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class DetailProdect extends StatefulWidget {
   const DetailProdect({Key? key, required DetailProdect}) : super(key: key);
 
-  @override
+  @override//A
   State<DetailProdect> createState() => _DetailProdectState();
 }
 class _DetailProdectState extends State<DetailProdect> {
