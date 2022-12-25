@@ -1,18 +1,26 @@
-import 'package:flutter/material.dart';
 
+
+import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'forgotPassword.dart';
 import 'homePage.dart';
 
 
-
 class SignIn extends StatefulWidget {
+
   const SignIn({Key? key, required Type SignIn}) : super(key: key);
 
   @override
   State<SignIn> createState() => _SignInState();
 }
 class _SignInState extends State<SignIn> {
+  final _auth = FirebaseAuth.instance;
+  late String  email;
+  late  String password;
   bool value = false;
+
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +72,15 @@ class _SignInState extends State<SignIn> {
               child: Column(
                 children: [
                   TextFormField(
+                    onChanged: (value) {
+                      email = value;
 
+                    },
                     style: const TextStyle(
                       fontSize: 16.0,
 
                     ),
-
+                    textInputAction: TextInputAction.next,
                     decoration:  InputDecoration(
                       alignLabelWithHint: true,
                       contentPadding: const EdgeInsets.symmetric(vertical: 23,horizontal: 30),
@@ -98,6 +109,13 @@ class _SignInState extends State<SignIn> {
                   ),
                   const SizedBox(height: 25,),
                   TextFormField(
+                    enableSuggestions: false,
+                    autocorrect: false,
+                    obscureText: true,
+                    onChanged: (value) {
+                      password = value;
+
+                    },
                     keyboardType: TextInputType.text,
                     style: const TextStyle(
                       fontSize: 16.0,
@@ -130,45 +148,57 @@ class _SignInState extends State<SignIn> {
 
                     ),
                   ),
-                 SizedBox(height: 20,),
-                 Row(
-                   children:  [
-                     Checkbox(
-                       value: this.value,
-                       onChanged: (bool? value)  {
-                         setState(() {
-                           this.value = value!;
+                  SizedBox(height: 20,),
+                  Row(
+                    children:  [
+                      Checkbox(
+                        value: this.value,
+                        onChanged: (bool? value)  {
+                          setState(() {
+                            this.value = value!;
 
-                         });
+                          });
 
-                       },
+                        },
 
-                     ),
-                     Text('Remember me',style: TextStyle(color: Colors.grey),),
-                     SizedBox(width: 40,),
-                     TextButton(onPressed: (){
+                      ),
+                      Text('Remember me',style: TextStyle(color: Colors.grey),),
+                      SizedBox(width: 40,),
+                      TextButton(onPressed: (){
                         Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const forgotPassword(forgotPassword: forgotPassword),
+                          builder: (context) => const forgotPassword(forgotPassword: forgotPassword),
                         ),);
-                     },
-                       style: TextButton.styleFrom(
-                       foregroundColor: Colors.grey,
+                      },
+                        style: TextButton.styleFrom(
+                          foregroundColor: Colors.grey,
 
-                     ),
-                       child: const Text('Forgot Password?',style: TextStyle(
-                         decoration: TextDecoration.underline,
-                       ),),)
+                        ),
+                        child: const Text('Forgot Password?',style: TextStyle(
+                          decoration: TextDecoration.underline,
+                        ),),)
 
 
-                   ],
-                 ),
+                    ],
+                  ),
                   const SizedBox(height: 20,),
                   MaterialButton(
-                      onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(
-                         builder: (context) => const homePage(homePage: homePage),
-                       ),);
+                      onPressed:()async {
+
+                        try {
+                          final newUser = await _auth.signInWithEmailAndPassword(
+                              email: email, password: password);
+                          if (newUser != null) {
+                            print(newUser);
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const homePage(homePage: homePage),
+                            ),);
+                          }
+                        } catch (e) {
+                          print(e);
+                        }
+
                       },
+
                       height: 70,
                       minWidth: 320,
                       textColor: Colors.white,
@@ -185,5 +215,6 @@ class _SignInState extends State<SignIn> {
 
           ],
         ),),);
+
   }
 }
